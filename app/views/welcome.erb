@@ -1,23 +1,18 @@
 <div class="container">
-  <header><img src="images/corneal-small.png" class="img-responsive main-image"></header>
-  <div class="col-md-8 col-md-offset-2">
-    <h2>Sinatra Template Default Page</h2>
+<header><img src="https://lh6.googleusercontent.com/proxy/AyECTmcPoNnvBtXRUjj2gm0kYrQnjuwzor8fLaw9Xx3wr1_xwvnNbpPJ50dyo2O7rkAMcqDpV9pJX8J0nTvvLE-4nWvt7VFxPxg3FdnOzDZRB2EdLw"></header>
+<div class="col-md-8 col-md-offset-2">
+  <h2>Book Tracker</h2>
 
-    <div class="content">
-      <p>Welcome to the Sinatra Template! If you're seeing this page, then everything is working
-      as expected. To get started, delete this file (<code>app/views/welcome.erb)</code> and begin adding
-      your own actions to <code>application_controller.rb</code>. For more information, see the <a href="https://github.com/thebrianemory/corneal">README</a>.</p>
-    </div>
-
-    <div class="sidebar">
-      <h3>Environment</h3>
-      <ul>
-        <li><b>Ruby:</b> <%= RUBY_VERSION %></li>
-        <li><b>Environment:</b> <%= ENV["RACK_ENV"] %></li>
-        <li><b>Server:</b> <%= @env["SERVER_SOFTWARE"] %></li>
-        <li><b>Port:</b> <%= @env["SERVER_PORT"] %></li>
-      </ul>
-    </div>
-
-  </div>
-</div>
+ <div class="content">
+   <p>Please Sign Up or Log In Below</p>
+   <div class="btn-group">
+     <form action="/login" method=get>
+       <input type="submit" class="button" value="Login"/>
+     </form
+   </div>
+   <div class="btn-group">
+     <form action="/signup" method=get>
+       <input type="submit" class="button" value="Sign Up"/>
+     </form
+   </div>
+ </div>
