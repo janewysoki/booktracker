@@ -57,6 +57,18 @@ class UsersController < ApplicationController
     get '/users/:id' do #aka users/1 (or any id number) in the url bar #:id piece of url is dynamic (changes from one user to another)
         #this will be user show route
         @user = User.find_by(id: params[:id])
+        #now let's just log the person in since they signed up (instead of redirecting to login page)
         erb :'/users/show' #this shows us the new user
+        #because i'm rendering/using erb, that gives me access to the @user variable inside of my view
+    #this method could also look like this:
+    #get '/users/:username' do
+        #@user = User.find_by(username: params[:username])
+        #erb :'/users/show'
+    #end
+    end
+
+    get '/logout' do
+        session.clear
+        redirect '/'
     end
 end
