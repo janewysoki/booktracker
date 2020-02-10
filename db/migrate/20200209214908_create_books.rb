@@ -5,7 +5,7 @@ class CreateBooks < ActiveRecord::Migration
       t.string :author
       t.text :comments
       t.integer :user_id
-      t.timestamps
+      t.timestamps null:false
     end
   end
 end

@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20200209214908) do
     t.string   "author"
     t.text     "comments"
     t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
