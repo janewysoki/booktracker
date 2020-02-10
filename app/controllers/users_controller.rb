@@ -33,7 +33,7 @@ class UsersController < ApplicationController
 
 
     #user SHOW route
-    get '/users/:id' do
+    get '/users/:id' do 
         #this will be user show route
     end
 end
