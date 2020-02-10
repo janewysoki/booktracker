@@ -12,7 +12,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :welcome
+    #only want to show welcome page if person isn't logged in
+    if logged_in?
+      redirect "/users/#{current_user.id}"
+    else
+      erb :welcome
+    end
   end
 
   #determine if someone is logged in
