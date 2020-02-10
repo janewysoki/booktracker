@@ -28,6 +28,4 @@ class ApplicationController < Sinatra::Base
       #first time @current_user is referenced within scope of instance of app controller, this instance will be created and assigned if user is found, otherwise it will still be nil
     end
   end
-
-
 end
