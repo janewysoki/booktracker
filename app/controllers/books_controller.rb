@@ -27,6 +27,7 @@ class BooksController < ApplicationController
     end
 
     #show route for a book
+    
 
     #index route for all books
 end
