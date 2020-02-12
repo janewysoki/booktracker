@@ -36,6 +36,8 @@ class BooksController < ApplicationController
 
     #this route should send us to books/edit.erb which will render an edit form
     get '/books/:id/edit' do
+        #want to find a specific book before rendering the edit form
+        @book = Book.find(params[:id]) #have to pull the id from the url
         erb :'/books/edit'
     end
 
