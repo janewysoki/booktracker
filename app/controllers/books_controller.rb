@@ -35,25 +35,45 @@ class BooksController < ApplicationController
         erb :'/books/show'
     end
 
+
+
+    #NEED TO UPDATE STILL
+    #1. ANYONE CAN EDIT ANYONE ELSE'S BOOKS
+    #2. I CAN EDIT A BOOK TO BE BLANK
+
+
+
     #this route should send us to books/edit.erb which will render an edit form
     get '/books/:id/edit' do
         #want to find a specific book before rendering the edit form
         #@book = Book.find(params[:id]) #have to pull the id from the url
         find_book
-        erb :'/books/edit'
+        if logged_in? #if logged in
+            #make sure book entry belongs to current user
+            if @book.user == current_user
+                erb :'/books/edit'
+            else #redirect them to their homepage (show page)
+                redirect "/users/#{current_user.id}"
+            end
+        else #if they aren't logged in, they're going to homepage
+            redirect '/'
+        end
     end
 
-    #this action's job is 
     #this is a brand new action, i don't have access to the instance variable anymore
     patch '/books/:id' do
         #find the book
         #@book = Book.find(params[:id])
         find_book
-        #modify (update) the book; gonna use active records methods to update book entry
-        @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
-        #redirect to show page
-        redirect "/books/#{@book.id}"
-
+        if logged_in?
+            #modify (update) the book; gonna use active records methods to update book entry
+            @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
+            #redirect to show page
+            redirect "/books/#{@book.id}"
+        else
+            redirect '/'
+        end  
+        
     end
 
     #index route for all books
