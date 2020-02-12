@@ -1,1 +1,8 @@
 SHOW PAGE FOR BOOK ENTRY
+<p><%= @book.title %></p>
+<p><%= @book.author %></p>
+<p><%= @book.comments %></p>
+
+
+<a href="/books/<%= @book.id %>/edit">Edit Book</a>
+Delete Link

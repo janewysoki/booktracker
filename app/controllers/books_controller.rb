@@ -31,12 +31,12 @@ class BooksController < ApplicationController
         #find book entry
         @book = Book.find(params[:id])
         #redirects destroy instance variables, and we want this instance variable to live on and be available inside show page for books
-        erb :'books/show'
+        erb :'/books/show'
     end
 
     #this route should send us to books/edit.erb which will render an edit form
-    get 'books/:id/edit' do
-        erb :'books/edit'
+    get '/books/:id/edit' do
+        erb :'/books/edit'
     end
 
     #index route for all books
