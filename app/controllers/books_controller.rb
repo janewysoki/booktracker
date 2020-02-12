@@ -26,8 +26,18 @@ class BooksController < ApplicationController
         end
     end
 
-    #show route for a book
-    
+    #show route for a book; show/render particular book entry
+    get '/books/:id' do #dynamic route - dynamic pieces of the route (:id) becomes key value pairs in the parameters
+        #find book entry
+        @book = Book.find(params[:id])
+        #redirects destroy instance variables, and we want this instance variable to live on and be available inside show page for books
+        erb :'books/show'
+    end
+
+    #this route should send us to books/edit.erb which will render an edit form
+    get 'books/:id/edit' do
+        erb :'books/edit'
+    end
 
     #index route for all books
 end
