@@ -49,8 +49,10 @@ class BooksController < ApplicationController
         #find the book
         #@book = Book.find(params[:id])
         find_book
-        #modify (update) the book
+        #modify (update) the book; gonna use active records methods to update book entry
+        @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
         #redirect to show page
+        redirect "/books/#{@book.id}"
 
     end
 
@@ -66,3 +68,4 @@ end
 
 
 
+#because im inside a books controller method, thats why i still have access to params. params is made available to my books controller class and every time we send new page refresh, we get a new instance of this class
