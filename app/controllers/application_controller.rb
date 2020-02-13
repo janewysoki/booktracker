@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
     set :public_folder, 'public' #relates to if i include images in public folder
     set :views, 'app/views' #this is where sinatra is gonna look when i render files - it will start here
     enable :sessions
-    set :sessions_secret, 'booklover' #this sets a session secret so a session id will be created for this particular session which allows an extra layer of security
+    set :session_secret, 'booklover' #this sets a session secret so a session id will be created for this particular session which allows an extra layer of security
   end
 
   get "/" do
@@ -36,5 +36,7 @@ class ApplicationController < Sinatra::Base
     def authorized_to_edit? (book) #NEED EXPLAINED
       book.user == current_user #returning true or false based on the book we passing in belonging to the current user
     end
+
+    #BUILD HELPER METHOD FOR REDIRECTING IF NOT LOGGED IN
   end
 end

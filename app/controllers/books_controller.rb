@@ -83,7 +83,23 @@ class BooksController < ApplicationController
         else
             redirect '/'
         end  
-        
+    end
+
+    #this action's job is simply to delete a book entry
+    delete '/books/:id' do
+        find_book #gets me the instance variable?
+        if authorized_to_edit?(@book) #don't have to use logged_in method since authorized to edit implies the user is already logged in
+            #delete the entry
+            #diff between delete and destroy is destroy runs callbacks on the method and removes associated children while delete doesn't
+            #callbacks are methods invoked at certain times, certain life cycles events will invoke a call back
+            @book.destroy
+            redirect '/books' 
+
+        else
+            #go somehwere else not deleted
+            redirect '/books'
+            #redirect '/users/login' maybe?
+        end
     end
 
     # i see that this line of code: @book = Book.find(params[:id]) is used multiple times so i should create a helper method
