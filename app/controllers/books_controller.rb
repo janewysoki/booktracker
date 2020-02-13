@@ -1,4 +1,10 @@
 class BooksController < ApplicationController
+    #index route for all books
+    get '/books' do
+        @books = Book.all #have to use an instance variable and not a local variable here because the scope of a local variable isn't to the class, but to the method they're part of
+        erb :'/books/index' #this is rendering to a file reference, we redirect to routes
+    end
+
     #get books/new to render a form to create new entry
     get '/books/new' do #get reqeusts show something exists
         erb :'/books/new'
@@ -50,7 +56,7 @@ class BooksController < ApplicationController
         find_book
         if logged_in? #if logged in
             #make sure book entry belongs to current user
-            if @book.user == current_user
+            if authorized_to_edit?(@book)
                 erb :'/books/edit'
             else #redirect them to their homepage (show page)
                 redirect "/users/#{current_user.id}"
@@ -66,7 +72,7 @@ class BooksController < ApplicationController
         #@book = Book.find(params[:id])
         find_book
         if logged_in?
-            if @book.user == current_user
+            if authorized_to_edit?(@book)
                 #modify (update) the book; gonna use active records methods to update book entry
                 @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
                 #redirect to show page
@@ -79,8 +85,6 @@ class BooksController < ApplicationController
         end  
         
     end
-
-    #index route for all books
 
     # i see that this line of code: @book = Book.find(params[:id]) is used multiple times so i should create a helper method
     private #WHY IS THIS PRIVATE?

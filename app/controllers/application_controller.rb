@@ -32,5 +32,9 @@ class ApplicationController < Sinatra::Base
       @current_user ||= User.find_by(id: session[:user_id]) #find_by will return nil instead of an error so we use find by instead of find
       #first time @current_user is referenced within scope of instance of app controller, this instance will be created and assigned if user is found, otherwise it will still be nil
     end
+
+    def authorized_to_edit? (book) #NEED EXPLAINED
+      book.user == current_user #returning true or false based on the book we passing in belonging to the current user
+    end
   end
 end

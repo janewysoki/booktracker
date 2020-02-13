@@ -3,7 +3,8 @@ SHOW PAGE FOR BOOK ENTRY
 <p><%= @book.author %></p>
 <p><%= @book.comments %></p>
 
-
-<a href="/books/<%= @book.id %>/edit">Edit Book</a>
-Delete Book
-Show All Books/Show User Library
+<% if authorized_to_edit?(@book) %>
+    <a href="/books/<%= @book.id %>/edit">Edit Book</a>
+    Delete Book
+    Show All Books/Show User Library
+<% end %>
