@@ -15,12 +15,16 @@
   </head>
   <body>
     <div class="nav">
-      <%# if logged_in? %>
+      <% if logged_in? %>
         <a href="/books">All Books</a>
         <a href="/books/new">Add Book</a>
         <a href="/logout">Logout</a>
-      <%# end %>
+      <% end %>
     </div>
+
+    <% if flash[:message] %>
+      <h3><%= flash[:message] %></h3>
+    <% end %>
 
     <div class="wrapper">
 

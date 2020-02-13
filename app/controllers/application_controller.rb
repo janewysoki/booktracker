@@ -2,13 +2,15 @@ require './config/environment'
 require 'rack-flash'
 
 class ApplicationController < Sinatra::Base
-  use Rack::Flash
+  #use Rack::Flash
 
   configure do
     set :public_folder, 'public' #relates to if i include images in public folder
     set :views, 'app/views' #this is where sinatra is gonna look when i render files - it will start here
     enable :sessions
     set :session_secret, 'booklover' #this sets a session secret so a session id will be created for this particular session which allows an extra layer of security
+    register Sinatra::Flash #now have access to a hash called flash where i can assign k/v pairs to a flash message and life cycle of flash message is exactly 1 http request
+      #CANT USE FLASH MESSAGES INSIDE ROUTES THAT END WITH ERB
   end
 
   get "/" do

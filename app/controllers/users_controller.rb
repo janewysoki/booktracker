@@ -13,7 +13,8 @@ class UsersController < ApplicationController
         #find the user
         @user = User.find_by(username: params[:username])
         #authenticate the user - verify the user is who they say they are and make sure they're in database/that they have credentials (username password combo)
-        if @user.authenticate(params[:password]) #either returns a user or returns false
+        if @user && @user.authenticate(params[:password]) #either returns a user or returns false
+            #WHY @user && @user.... above???
             #log the user in - create the user session
             #add key value pair to session hash
             session[:user_id] = @user.id #this is actually logging the user in
@@ -21,8 +22,9 @@ class UsersController < ApplicationController
             redirect "users/#{@user.id}" #pass in user id to match the show route below
         else
             #tell user they entered invalid credentials
+            flash[:message] = "You've entered invalid credentials. Please sign up or try again."
             #redirect them to login page
-            #redirect '/users/login'
+            redirect '/login'
         end
        
     end

@@ -21,6 +21,7 @@ class BooksController < ApplicationController
         end
         #now i only want to save the entry if it has some content 
         if params[:title] != "" #author and comments section can be left empty
+            flash[:message] = "You've successfully added a new book!"
             #then create new entry
             @book = Book.create(params) #this is mass assignment - params is a hash thats getting the key value pairs needed to create a new book
             #@book = Book.create(title: params[:title], author: params[:author], comments: params[:comments], user_id: current_user.id)
@@ -28,6 +29,7 @@ class BooksController < ApplicationController
         else
             #if empty, redirect back to form
             #ADD FLASH MESSAGE
+            flash[:message] = "You must enter a title to add a new book." #can change :message to :error and then style error flash messages to be red and :message ones to be green
             redirect '/books/new'
         end
     end
@@ -40,14 +42,6 @@ class BooksController < ApplicationController
         #redirects destroy instance variables, and we want this instance variable to live on and be available inside show page for books
         erb :'/books/show'
     end
-
-
-
-    #NEED TO UPDATE STILL
-    #1. ANYONE CAN EDIT ANYONE ELSE'S BOOKS
-    #2. I CAN EDIT A BOOK TO BE BLANK
-
-
 
     #this route should send us to books/edit.erb which will render an edit form
     get '/books/:id/edit' do
@@ -72,7 +66,7 @@ class BooksController < ApplicationController
         #@book = Book.find(params[:id])
         find_book
         if logged_in?
-            if authorized_to_edit?(@book)
+            if authorized_to_edit?(@book) && params[:title] != "" && params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
                 #modify (update) the book; gonna use active records methods to update book entry
                 @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
                 #redirect to show page
