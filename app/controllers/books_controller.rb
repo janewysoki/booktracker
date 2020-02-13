@@ -10,9 +10,9 @@ class BooksController < ApplicationController
     #how to check if incoming data has content
     #only want to create book if a user is logged in
     #first let's check that user is logged in - if not, redirect to homepage
-        #if !logged_in?
-            #redirect '/'
-        #end
+        if !logged_in?
+            redirect '/'
+        end
         #now i only want to save the entry if it has some content 
         if params[:title] != "" #author and comments section can be left empty
             #then create new entry
@@ -66,10 +66,14 @@ class BooksController < ApplicationController
         #@book = Book.find(params[:id])
         find_book
         if logged_in?
-            #modify (update) the book; gonna use active records methods to update book entry
-            @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
-            #redirect to show page
-            redirect "/books/#{@book.id}"
+            if @book.user == current_user
+                #modify (update) the book; gonna use active records methods to update book entry
+                @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
+                #redirect to show page
+                redirect "/books/#{@book.id}"
+            else
+                redirect "/users/#{current_user.id}" #redirect to their homepage
+            end
         else
             redirect '/'
         end  
