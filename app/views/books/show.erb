@@ -1,8 +1,8 @@
 
 <h3><i><%= @book.title %></i></h3>
-<p>By <%= @book.author %></p>
+By <%= @book.author %>
 <p>Comments: <%= @book.comments %></p>
-<% #<p>Added By: <%= @book.user.username %></p> %>
+<p>Added By: <%= @book.user.username %></p>
 
 
 <% if authorized_to_edit?(@book) %>

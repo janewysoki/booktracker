@@ -2,7 +2,6 @@ require './config/environment'
 require 'rack-flash'
 
 class ApplicationController < Sinatra::Base
-  #use Rack::Flash
 
   configure do
     set :public_folder, 'public' #relates to if i include images in public folder
@@ -22,7 +21,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  #determine if someone is logged in
   helpers do
     def current_user #should return current user if there is one
       #find method takes in an integer and looks up the id; will return user if there is one; if find doesn't find what it is looking for it will return error
@@ -39,12 +37,6 @@ class ApplicationController < Sinatra::Base
       book.user == current_user #returning true or false based on the book we passing in belonging to the current user
     end
 
-    def valid_params?
-      params[:book].none? do |k, v|
-        v == ""
-      end
-    end
-
     #BUILD HELPER METHOD FOR REDIRECTING IF NOT LOGGED IN
     def redirect_if_not_logged_in
       if !logged_in?
@@ -52,6 +44,5 @@ class ApplicationController < Sinatra::Base
         redirect '/'
       end
     end
-    
   end
 end

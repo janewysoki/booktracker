@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+    
     #index route for all books
     get '/books' do
         @books = Book.all #have to use an instance variable and not a local variable here because the scope of a local variable isn't to the class, but to the method they're part of
@@ -13,20 +14,18 @@ class BooksController < ApplicationController
     #post books to create a new book
     post '/books' do
     #want to create new book and save it to db
-    #how to check if incoming data has content
-    #only want to create book if a user is logged in
     #first let's check that user is logged in - if not, redirect to homepage
         redirect_if_not_logged_in
         #now i only want to save the entry if it has some content 
         if params[:title] != "" #author and comments section can be left empty
-            flash[:message] = "You've successfully added a new book!"
             #then create new entry
             @book = Book.create(params) #this is mass assignment - params is a hash thats getting the key value pairs needed to create a new book
-            #@book = Book.create(title: params[:title], author: params[:author], comments: params[:comments], user_id: current_user.id)
+            @book.user_id = session[:user_id]
+            @book.save #save to db
+            flash[:message] = "You've successfully added a new book!"
             redirect "/books/#{@book.id}" #without redirect this would be a dead end
         else
             #if empty, redirect back to form
-            #ADD FLASH MESSAGE
             flash[:error] = "You must enter a title to add a new book." #can change :message to :error and then style error flash messages to be red and :message ones to be green
             redirect '/books/new'
         end
@@ -35,8 +34,7 @@ class BooksController < ApplicationController
     #show route for a book; show/render particular book entry
     get '/books/:id' do #dynamic route - dynamic pieces of the route (:id) becomes key value pairs in the parameters
         #find book entry
-        #@book = Book.find(params[:id])
-        find_book
+        find_book #@book = Book.find(params[:id])
         #redirects destroy instance variables, and we want this instance variable to live on and be available inside show page for books
         erb :'/books/show'
     end
@@ -44,8 +42,7 @@ class BooksController < ApplicationController
     #this route should send us to books/edit.erb which will render an edit form
     get '/books/:id/edit' do
         #want to find a specific book before rendering the edit form
-        #@book = Book.find(params[:id]) #have to pull the id from the url
-        find_book
+        find_book #@book = Book.find(params[:id]) #have to pull the id from the url
         redirect_if_not_logged_in
             #make sure book entry belongs to current user
         if authorized_to_edit?(@book)
@@ -58,11 +55,9 @@ class BooksController < ApplicationController
 
     #this is a brand new action, i don't have access to the instance variable anymore
     patch '/books/:id' do
-        #find the book
-        #@book = Book.find(params[:id])
         find_book
         redirect_if_not_logged_in
-        if authorized_to_edit?(@book) && params[:title] != "" #&& params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
+        if authorized_to_edit?(@book) && params[:title] != ""
             #modify (update) the book; gonna use active records methods to update book entry
             @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
             #redirect to show page
@@ -75,6 +70,7 @@ class BooksController < ApplicationController
     #this action's job is simply to delete a book entry
     delete '/books/:id' do
         find_book #gets me the instance variable?
+        #redirect_if_not_logged_in DO I NEED THIS?
         if authorized_to_edit?(@book) #don't have to use logged_in method since authorized to edit implies the user is already logged in
             #delete the entry
             #diff between delete and destroy is destroy runs callbacks on the method and removes associated children while delete doesn't
@@ -85,7 +81,6 @@ class BooksController < ApplicationController
         else
             #go somehwere else not deleted
             redirect '/books'
-            #redirect '/users/login' maybe?
         end
     end
 
@@ -94,7 +89,6 @@ class BooksController < ApplicationController
         def find_book
             @book = Book.find(params[:id])
         end
-
 end
 
 
