@@ -35,7 +35,7 @@ class ApplicationController < Sinatra::Base
       !!current_user #!! takes a value and turns it into a boolean reflection of an object's truthiness; will return true if there's a user here
     end
 
-    def authorized_to_edit? (book) #NEED EXPLAINED
+    def authorized_to_edit?(book) #NEED EXPLAINED
       book.user == current_user #returning true or false based on the book we passing in belonging to the current user
     end
 
@@ -44,6 +44,14 @@ class ApplicationController < Sinatra::Base
         v == ""
       end
     end
+
     #BUILD HELPER METHOD FOR REDIRECTING IF NOT LOGGED IN
+    def redirect_if_not_logged_in
+      if !logged_in?
+        flash[:error] = "You must log in to continue."
+        redirect '/'
+      end
+    end
+    
   end
 end

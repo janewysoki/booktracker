@@ -49,7 +49,7 @@ class UsersController < ApplicationController
             #now let's just log the person in since they signed up (instead of redirecting to login page)
             session[:user_id] = @user.id #this actually logs user in
             #creating a key on the sessions hash called user_id and assigning it to the users id that just signed up
-            flash[:message] = "Thanks for creating an account, #{@user.username}! Welcome."
+            flash[:message] = "Thanks for creating an account, #{@user.username}! Welcome." #flash message will only work if you end with a redirect cause only a redirect sends a new HTTP request! NOT with an erb
             #where do I go now? user show page?
             redirect "/users/#{@user.id}" #grab actual users id and redirect to their specific show page
                 #with redirect we write the url of the request we're sending; new http request
@@ -70,6 +70,7 @@ class UsersController < ApplicationController
     get '/users/:id' do #aka users/1 (or any id number) in the url bar #:id piece of url is dynamic (changes from one user to another)
         #this will be user show route
         @user = User.find_by(id: params[:id])
+        redirect_if_not_logged_in
         erb :'/users/show' #this shows us the new user
         #because i'm rendering/using erb, that gives me access to the @user variable inside of my view
     #this method could also look like this:

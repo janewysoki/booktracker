@@ -16,9 +16,7 @@ class BooksController < ApplicationController
     #how to check if incoming data has content
     #only want to create book if a user is logged in
     #first let's check that user is logged in - if not, redirect to homepage
-        if !logged_in?
-            redirect '/'
-        end
+        redirect_if_not_logged_in
         #now i only want to save the entry if it has some content 
         if params[:title] != "" #author and comments section can be left empty
             flash[:message] = "You've successfully added a new book!"
@@ -48,15 +46,13 @@ class BooksController < ApplicationController
         #want to find a specific book before rendering the edit form
         #@book = Book.find(params[:id]) #have to pull the id from the url
         find_book
-        if logged_in? #&& authorized_to_edit?
+        redirect_if_not_logged_in
             #make sure book entry belongs to current user
-            if authorized_to_edit?(@book)
-                erb :'/books/edit'
-            else #redirect them to their homepage (show page)
-                redirect "/users/#{current_user.id}"
-            end
-        else #if they aren't logged in, they're going to homepage
-            redirect '/'
+        if authorized_to_edit?(@book)
+            erb :'/books/edit'
+        else #redirect them to their homepage (show page)
+            flash[:error] = "You are not authorized to edit this book."
+            redirect "/users/#{current_user.id}"
         end
     end
 
@@ -65,18 +61,15 @@ class BooksController < ApplicationController
         #find the book
         #@book = Book.find(params[:id])
         find_book
-        if logged_in?
-            if authorized_to_edit?(@book) && params[:title] != "" #&& params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
-                #modify (update) the book; gonna use active records methods to update book entry
-                @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
-                #redirect to show page
-                redirect "/books/#{@book.id}"
-            else
-                redirect "/users/#{current_user.id}" #redirect to their homepage
-            end
+        redirect_if_not_logged_in
+        if authorized_to_edit?(@book) && params[:title] != "" #&& params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
+            #modify (update) the book; gonna use active records methods to update book entry
+            @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
+            #redirect to show page
+            redirect "/books/#{@book.id}"
         else
-            redirect '/'
-        end  
+            redirect "/users/#{current_user.id}" #redirect to their homepage
+        end
     end
 
     #this action's job is simply to delete a book entry
@@ -87,6 +80,7 @@ class BooksController < ApplicationController
             #diff between delete and destroy is destroy runs callbacks on the method and removes associated children while delete doesn't
             #callbacks are methods invoked at certain times, certain life cycles events will invoke a call back
             @book.destroy
+            flash[:message] = "Book successfully deleted."
             redirect '/books' 
         else
             #go somehwere else not deleted
