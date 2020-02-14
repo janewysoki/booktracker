@@ -6,8 +6,10 @@ By <%= @book.author %>
 
 
 <% if authorized_to_edit?(@book) %>
-    <a href="/books/<%= @book.id %>/edit">Edit Book </a>
-    <br><br>
+    <form class="" action="/books/<%= @book.id %>/edit" method="get">
+        <input type="submit" value="Edit Book">
+    </form>
+   
     <form class="" action="/books/<%= @book.id %>" method="post">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" value="Delete Book">
