@@ -29,7 +29,7 @@ class BooksController < ApplicationController
         else
             #if empty, redirect back to form
             #ADD FLASH MESSAGE
-            flash[:message] = "You must enter a title to add a new book." #can change :message to :error and then style error flash messages to be red and :message ones to be green
+            flash[:error] = "You must enter a title to add a new book." #can change :message to :error and then style error flash messages to be red and :message ones to be green
             redirect '/books/new'
         end
     end
@@ -48,7 +48,7 @@ class BooksController < ApplicationController
         #want to find a specific book before rendering the edit form
         #@book = Book.find(params[:id]) #have to pull the id from the url
         find_book
-        if logged_in? #if logged in
+        if logged_in? #&& authorized_to_edit?
             #make sure book entry belongs to current user
             if authorized_to_edit?(@book)
                 erb :'/books/edit'
@@ -66,7 +66,7 @@ class BooksController < ApplicationController
         #@book = Book.find(params[:id])
         find_book
         if logged_in?
-            if authorized_to_edit?(@book) && params[:title] != "" && params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
+            if authorized_to_edit?(@book) && params[:title] != "" #&& params[:author] != "" && params[:comments] != "" #WHAT DOES THIS DO
                 #modify (update) the book; gonna use active records methods to update book entry
                 @book.update(title: params[:title], author: params[:author], comments: params[:comments]) #this is actually a hash of key value pairs
                 #redirect to show page
@@ -88,7 +88,6 @@ class BooksController < ApplicationController
             #callbacks are methods invoked at certain times, certain life cycles events will invoke a call back
             @book.destroy
             redirect '/books' 
-
         else
             #go somehwere else not deleted
             redirect '/books'
@@ -97,7 +96,7 @@ class BooksController < ApplicationController
     end
 
     # i see that this line of code: @book = Book.find(params[:id]) is used multiple times so i should create a helper method
-    private #WHY IS THIS PRIVATE?
+    private #WHY IS THIS PRIVATE? #CAN THIS BE A HELPER METHOD?
         def find_book
             @book = Book.find(params[:id])
         end

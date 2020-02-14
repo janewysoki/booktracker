@@ -24,21 +24,26 @@ class ApplicationController < Sinatra::Base
 
   #determine if someone is logged in
   helpers do
+    def current_user #should return current user if there is one
+      #find method takes in an integer and looks up the id; will return user if there is one; if find doesn't find what it is looking for it will return error
+      @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id] #why if statement? #find_by will return nil instead of an error so we use find by instead of find
+      #first time @current_user is referenced within scope of instance of app controller, this instance will be created and assigned if user is found, otherwise it will still be nil
+    end
+
     def logged_in? #this will return boolean, if i'm going to return a boolean from a method it should end in question mark
       #should return true if user is logged in, otherwise false
       !!current_user #!! takes a value and turns it into a boolean reflection of an object's truthiness; will return true if there's a user here
-    end
-
-    def current_user #should return current user if there is one
-      #find method takes in an integer and looks up the id; will return user if there is one; if find doesn't find what it is looking for it will return error
-      @current_user ||= User.find_by(id: session[:user_id]) #find_by will return nil instead of an error so we use find by instead of find
-      #first time @current_user is referenced within scope of instance of app controller, this instance will be created and assigned if user is found, otherwise it will still be nil
     end
 
     def authorized_to_edit? (book) #NEED EXPLAINED
       book.user == current_user #returning true or false based on the book we passing in belonging to the current user
     end
 
+    def valid_params?
+      params[:book].none? do |k, v|
+        v == ""
+      end
+    end
     #BUILD HELPER METHOD FOR REDIRECTING IF NOT LOGGED IN
   end
 end

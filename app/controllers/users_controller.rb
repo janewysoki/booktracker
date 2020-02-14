@@ -18,11 +18,13 @@ class UsersController < ApplicationController
             #log the user in - create the user session
             #add key value pair to session hash
             session[:user_id] = @user.id #this is actually logging the user in
+            puts session #WHY DO I NEED THIS
             #redirect to the user's show page
+            flash[:message] = "Welcome, #{@user.username}!" #don't need this
             redirect "users/#{@user.id}" #pass in user id to match the show route below
         else
             #tell user they entered invalid credentials
-            flash[:message] = "You've entered invalid credentials. Please sign up or try again."
+            flash[:error] = "You've entered invalid credentials. Please sign up or try again."
             #redirect them to login page
             redirect '/login'
         end
@@ -45,6 +47,7 @@ class UsersController < ApplicationController
             #now let's just log the person in since they signed up (instead of redirecting to login page)
             session[:user_id] = @user.id #this actually logs user in
             #creating a key on the sessions hash called user_id and assigning it to the users id that just signed up
+            flash[:message] = "Thanks for creating an account, #{@user.username}! Welcome."
             #where do I go now? user show page?
             redirect "/users/#{@user.id}" #grab actual users id and redirect to their specific show page
                 #with redirect we write the url of the request we're sending; new http request
@@ -56,6 +59,7 @@ class UsersController < ApplicationController
         else
             #not valid input
             #ADD MESSAGE telling user what is wrong
+            flash[:error] = "You must fill in each section in order to sign up. Please try again."
             redirect '/signup' #will eventually add flash message
         end
     end

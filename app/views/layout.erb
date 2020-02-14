@@ -18,16 +18,23 @@
       <% if logged_in? %>
         <a href="/books">All Books</a>
         <a href="/books/new">Add Book</a>
+        <a href="/users/<%= current_user.id %>">Profile</a>
         <a href="/logout">Logout</a>
       <% end %>
     </div>
+
+    
+
+    <div class="wrapper">
 
     <% if flash[:message] %>
       <h3><%= flash[:message] %></h3>
     <% end %>
 
-    <div class="wrapper">
-
+    <% if flash[:error] %>
+      <h3 style="color: red;"><%= flash[:error] %></h3>
+    <% end %>
+    
         <%= yield %>
 
       <footer class="branding">
