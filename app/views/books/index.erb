@@ -2,8 +2,9 @@
 <br><br>
 <% @books.each do |book| %>
     <h4> <a href="/books/<%= book.id %>"> <%= book.created_at %></a></h4>
-    <p><%= book.title %></p>  <%#WHY CAN THIS BE JUST BOOK AND NOT @BOOK%>
-    <p><%= book.author %></p>
-    <p><%= book.comments %></p>
-    <br><br>
+    <br>
+    <i><%= book.title %></i> 
+    <p>By <%= book.author %></p>
+    <p>Comments: <%= book.comments %></p>
+    <br>
 <% end %>

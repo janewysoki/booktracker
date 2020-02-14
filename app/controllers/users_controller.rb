@@ -41,9 +41,11 @@ class UsersController < ApplicationController
         #here is where we will create a new user and persist that new user to the database
         #params will look like: {"email" => "jane@jane.com", "username => "jane", "password" => "1234"}
         #only want to persist a user that has an email, username, and password
-        if params[:email] != "" && params[:username] != "" && params[:password] != "" #if all fields aren't empty strings
+        @user = User.create(params) 
+        if @user.save #this will return true or false
+            #params[:email] != "" && params[:username] != "" && params[:password] != "" #if all fields aren't empty strings
             #valid input
-            @user = User.create(params) 
+            
             #now let's just log the person in since they signed up (instead of redirecting to login page)
             session[:user_id] = @user.id #this actually logs user in
             #creating a key on the sessions hash called user_id and assigning it to the users id that just signed up
@@ -59,7 +61,7 @@ class UsersController < ApplicationController
         else
             #not valid input
             #ADD MESSAGE telling user what is wrong
-            flash[:error] = "You must fill in each section in order to sign up. Please try again."
+            flash[:error] = "Account creation failure: #{@user.errors.full_messages.to_sentence}."
             redirect '/signup' #will eventually add flash message
         end
     end
