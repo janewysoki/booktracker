@@ -14,12 +14,18 @@
 
   /* --- Welcome Page Styles --- */
   body {
-    background-color: rgb(123, 187, 209);
-    color: #333;
+    background-color: rgb(159, 96, 201);
+    color: rgb(8, 2, 2);
     font-family: 'Times New Roman', Times, serif;
     line-height: 18px;
   }
 
+  .header-img {
+    width: 100%;
+    height: 400px;
+    background: url('https://lh3.googleusercontent.com/proxy/nv7zN2zoq0fK6X23a4FqF-B64OhZb2vhdebPjW0EPUw2hA-YH6G2UDDV4cX7wL35afUTACsHQvKYxUtxqr3d0a9qLsVWt7vJfuSV7fGGjEbjy4XS6bC5ZV7p');
+    background-size: cover;
+  }
   .wrapper {
     background: #fff;
     -moz-box-shadow: 0 0 10px rgba(0,0,0,.3);

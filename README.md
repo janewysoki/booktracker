@@ -7,8 +7,6 @@ Then execute bundle install in your terminal.
 
 # USAGE
 After cloning the repository and running bundle:
-1. Run rake db:migrate
-2. Run rake db:seed for pre-filled content
 3. Run shotgun
 
 DEPLOYMENT
@@ -16,10 +14,6 @@ Add additional notes about how to deploy this on a live system
 
 # BUILT WITH
 The folder template and default format was created using the corneal gem: http://thebrianemory.github.io/corneal/
-Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
-
-VERSIONING
-We use SemVer for versioning. For the versions available, see the tags on this repository.
 
 # AUTHOR
 janewysoki https://github.com/janewysoki
