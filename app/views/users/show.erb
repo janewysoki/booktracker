@@ -2,10 +2,9 @@
 
 <h2><%= @user.username %>'s Profile</h2>
 
-Books You've Added:
+<h3>Books You've Read:</h3>
+<br>
 <% @user.books.each do |book| %>
-    <a href="/books/<%= book.id %>"> <i><%= book.title %> </i></a> 
-<%> end <%>
-
-
+    <p><a href="/books/<%= book.id %>"> <%= book.title %> </a></p>
+<% end %>
 

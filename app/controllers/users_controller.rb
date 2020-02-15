@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     get '/users/:id' do #aka users/1 (or any id number) in the url bar #:id piece of url is dynamic (changes from one user to another)
         @user = User.find_by(id: params[:id])
         redirect_if_not_logged_in
-        erb :'/users/show' #this shows us the new user
+        erb :'/users/show'
         #because i'm rendering/using erb, that gives me access to the @user variable inside of my view
     end
 
