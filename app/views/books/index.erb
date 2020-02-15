@@ -1,11 +1,14 @@
+<header><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSNDzWbwTs_BY68S_DBDE6NSX8mcFlTbRAE5KRPk4YLOV-7uo-r"</header>
 <h1>All Books</h1>
-<br><br>
+<h3>Browse Books Added by All Users:</h3>
+<br>
 <% @books.each do |book| %>
     <h4> <a href="/books/<%= book.id %>"> <%= book.created_at %></a></h4>
     <br>
     <i><%= book.title %></i>
-    <p>By <%= book.author %></p>
+    By <%= book.author %>
     <p>Comments: <%= book.comments %></p>
+    <br>
     Added By: <%= book.user.username %>
     <br><br>
 <% end %>
