@@ -1,16 +1,10 @@
 # BOOK TRACKER
-This application provides the user with a way to keep track of books they've read, as well as browse other user's book lists for reading suggestions. The user must sign up and be logged in to see any content. Once logged in, links at the top of the page will guide the user. You can click the "All Books" link to see every book all users have entered. You can click "Add a Book" to keep track of books you've read, and view all of your read books at the "Profile" link. 
+This application provides the user with a way to keep track of books they've read, as well as the ability to browse other user's book lists for reading suggestions. The user must sign up and be logged in to see any content. Once logged in, links at the top of the page will guide the user. You can click the "All Books" link to see every book all users have entered. You can click "Add a Book" to keep track of books you've read, and view all of your read books at the "Profile" link. 
 
 # GETTING STARTED
 To use this app, clone this repo: https://github.com/janewysoki/booktracker.
 Then execute bundle install in your terminal.
-
-# USAGE
-After cloning the repository and running bundle:
-3. Run shotgun
-
-DEPLOYMENT
-Add additional notes about how to deploy this on a live system
+Then run shotgun.
 
 # BUILT WITH
 The folder template and default format was created using the corneal gem: http://thebrianemory.github.io/corneal/
