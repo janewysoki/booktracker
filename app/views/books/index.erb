@@ -4,11 +4,9 @@
 <br>
 <% @books.each do |book| %>
     <h4> <a href="/books/<%= book.id %>"> <%= book.created_at.to_date %></a></h4>
-    <br>
     <i><%= book.title %></i>
-    By <%= book.author %>
+    by <%= book.author %>
     <p>Comments: <%= book.comments %></p>
-    <br>
     Added By: <%= book.user.username %>
     <br><br>
 <% end %>
