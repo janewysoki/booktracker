@@ -4,7 +4,6 @@ By <%= @book.author %>
 <p>Comments: <%= @book.comments %></p>
 <p>Added By: <%= @book.user.username %></p>
 
-
 <% if authorized_to_edit?(@book) %>
     <form class="" action="/books/<%= @book.id %>/edit" method="get">
         <input type="submit" value="Edit Book">
