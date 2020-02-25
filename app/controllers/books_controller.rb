@@ -10,14 +10,9 @@ class BooksController < ApplicationController
     end
 
     post '/books' do
-        #user.books.build - calling books on ___ but associating it with ______
-        #book = user.books.build(params)
         redirect_if_not_logged_in
         if params[:title] != "" 
-            @book = Book.create(params) #change to new?
-            #current_user.books.build
-            #@book.user = current_user
-            @book.user_id = session[:user_id]
+            @book = current_user.books.build(params)
             @book.save 
             flash[:message] = "You've successfully added a new book!"
             redirect "/books/#{@book.id}" 
