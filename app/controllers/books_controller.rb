@@ -10,9 +10,13 @@ class BooksController < ApplicationController
     end
 
     post '/books' do
+        #user.books.build - calling books on ___ but associating it with ______
+        #book = user.books.build(params)
         redirect_if_not_logged_in
         if params[:title] != "" 
-            @book = Book.create(params) 
+            @book = Book.create(params) #change to new?
+            #current_user.books.build
+            #@book.user = current_user
             @book.user_id = session[:user_id]
             @book.save 
             flash[:message] = "You've successfully added a new book!"
@@ -24,8 +28,11 @@ class BooksController < ApplicationController
     end
 
     get '/books/:id' do 
-        find_book 
-        erb :'/books/show'
+        if find_book 
+            erb :'/books/show'
+        else
+            redirect "/users/#{current_user.id}"
+        end
     end
 
     get '/books/:id/edit' do
@@ -63,6 +70,6 @@ class BooksController < ApplicationController
 
     private 
         def find_book
-            @book = Book.find(params[:id])
+            @book = Book.find_by(params[:id])
         end
 end
